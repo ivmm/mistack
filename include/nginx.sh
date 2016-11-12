@@ -52,8 +52,8 @@ Install_Nginx() {
   --with-http_flv_module \
   --with-openssl=../openssl-$openssl_version \
   --with-ld-opt="-ljemalloc" \
-  --add-module=../ngx_brotli-$ngx_brotli_version \
-  --add-module=../nginx-ct-$nginx_ct_version
+  --add-module=../nginx-ct-$nginx_ct_version \
+  #--add-module=../ngx_brotli-$ngx_brotli_version
   make -j ${THREAD} && make install
   if [ -e "$nginx_install_dir/conf/nginx.conf" ]; then
     popd 
