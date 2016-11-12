@@ -24,7 +24,6 @@ Install_Nginx() {
   tar xzf $nps_version.tar.gz
 
   pushd $oneinstack_dir/src
-  tar xzf pcre-$pcre_version.tar.gz
   tar xzf nginx-$nginx_version.tar.gz
   tar xzf openssl-$openssl_version.tar.gz
   tar xzf ngx-brotli-$ngx_brotli_version.tar.gz
@@ -38,21 +37,21 @@ Install_Nginx() {
   sed -i 's@CFLAGS="$CFLAGS -g"@#CFLAGS="$CFLAGS -g"@' auto/cc/gcc
   
   [ ! -d "$nginx_install_dir" ] && mkdir -p $nginx_install_dir
-./configure \
---prefix=$nginx_install_dir \
---user=$run_user \
---group=$run_user \
---with-http_stub_status_module \
---with-http_v2_module \
---with-http_ssl_module \
---with-ipv6 \
---with-http_gzip_static_module \
---with-http_realip_module \
---with-http_flv_module \
---with-openssl=../openssl-$openssl_version \
---with-ld-opt="-ljemalloc" \
---add-module=../nginx-ct-${nginx_ct_version}
---add-module=../ngx_brotli-ngx-brotli-$ngx_brotli_version
+  ./configure \
+  --prefix=$nginx_install_dir \
+  --user=$run_user \
+  --group=$run_user \
+  --with-http_stub_status_module \
+  --with-http_v2_module \
+  --with-http_ssl_module \
+  --with-ipv6 \
+  --with-http_gzip_static_module \
+  --with-http_realip_module \
+  --with-http_flv_module \
+  --with-openssl=../openssl-$openssl_version \
+  --with-ld-opt="-ljemalloc" \
+  --add-module=../nginx-ct-${nginx_ct_version} \
+  --add-module=../ngx-brotli-$ngx_brotli_version
   make -j ${THREAD} && make install
   if [ -e "$nginx_install_dir/conf/nginx.conf" ]; then
     popd 
@@ -68,7 +67,7 @@ Install_Nginx() {
   [ -n "`grep ^'export PATH=' /etc/profile`" -a -z "`grep $nginx_install_dir /etc/profile`" ] && sed -i "s@^export PATH=\(.*\)@export PATH=$nginx_install_dir/sbin:\1@" /etc/profile
   . /etc/profile
   
-  [ "$OS" == 'CentOS' ] && { /bin/cp ../init.d/Nginx-init-CentOS /etc/init.d/nginx; chkconfig --add nginx; chkconfig nginx on; }
+  [ "$OS" == 'CentOS' ] && { /bin/cp ../init.d/Nginx-init-CentOS /etc/init.d/nginx; chkconfig   --add nginx; chkconfig nginx on; }
   [[ $OS =~ ^Ubuntu$|^Debian$ ]] && { /bin/cp ../init.d/Nginx-init-Ubuntu /etc/init.d/nginx; update-rc.d nginx defaults; }
 
   sed -i "s@/usr/local/nginx@$nginx_install_dir@g" /etc/init.d/nginx
@@ -83,20 +82,20 @@ Install_Nginx() {
     [ "$PHP_yn" == 'y' ] && [ -z "`grep '/php-fpm_status' $nginx_install_dir/conf/nginx.conf`" ] &&  sed -i "s@index index.html index.php;@index index.html index.php;\n    location ~ /php-fpm_status {\n        #fastcgi_pass remote_php_ip:9000;\n        fastcgi_pass unix:/dev/shm/php-cgi.sock;\n        fastcgi_index index.php;\n        include fastcgi.conf;\n        allow 127.0.0.1;\n        deny all;\n        }@" $nginx_install_dir/conf/nginx.conf
   fi
   cat > $nginx_install_dir/conf/proxy.conf << EOF
-proxy_connect_timeout 300s;
-proxy_send_timeout 900;
-proxy_read_timeout 900;
-proxy_buffer_size 32k;
-proxy_buffers 4 64k;
-proxy_busy_buffers_size 128k;
-proxy_redirect off;
-proxy_hide_header Vary;
-proxy_set_header Accept-Encoding '';
-proxy_set_header Referer \$http_referer;
-proxy_set_header Cookie \$http_cookie;
-proxy_set_header Host \$host;
-proxy_set_header X-Real-IP \$remote_addr;
-proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
+  proxy_connect_timeout 300s;
+  proxy_send_timeout 900;
+  proxy_read_timeout 900;
+  proxy_buffer_size 32k;
+  proxy_buffers 4 64k;
+  proxy_busy_buffers_size 128k;
+  proxy_redirect off;
+  proxy_hide_header Vary;
+  proxy_set_header Accept-Encoding '';
+  proxy_set_header Referer \$http_referer;
+  proxy_set_header Cookie \$http_cookie;
+  proxy_set_header Host \$host;
+  proxy_set_header X-Real-IP \$remote_addr;
+  proxy_set_header X-Forwarded-For \$  proxy_add_x_forwarded_for;
 EOF
   sed -i "s@/data/wwwroot/default@$wwwroot_dir/default@" $nginx_install_dir/conf/nginx.conf
   sed -i "s@/data/wwwlogs@$wwwlogs_dir@g" $nginx_install_dir/conf/nginx.conf
