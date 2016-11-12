@@ -39,6 +39,7 @@ Install_Nginx() {
   
   [ ! -d "$nginx_install_dir" ] && mkdir -p $nginx_install_dir
   ./configure \
+  --with-cc-opt='-Wno-deprecated-declarations' 
   --prefix=$nginx_install_dir \
   --user=$run_user \
   --group=$run_user \
