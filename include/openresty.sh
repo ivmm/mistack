@@ -66,7 +66,7 @@ Install_OpenResty() {
 	  --with-openssl=../libressl-$libressl_version \
 	  --with-ld-opt="-ljemalloc" \
 	  --add-module=../ngx_pagespeed-$nps_version-beta \
-    --add-module=../ngx-brotli-$ngx_brotli_version
+    --add-module=../ngx_brotli_$ngx_brotli_version
     make -j ${THREAD} && make install
   if [ -e "$openresty_install_dir/nginx/conf/nginx.conf" ]; then
     popd
