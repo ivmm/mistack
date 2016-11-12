@@ -15,13 +15,14 @@ checkDownload(){
   if [ "${Web_yn}" == 'y' ]; then
     echo "Download openSSL..."
     #src_url=https://www.openssl.org/source/openssl-${openssl_version}.tar.gz && Download_src
-    src_url=https://mirror.tuna.tsinghua.edu.cn/OpenBSD/LibreSSL/libressl-${libressl_version}.tar.gz && Download_src
+    #src_url=https://mirror.tuna.tsinghua.edu.cn/OpenBSD/LibreSSL/libressl-${libressl_version}.tar.gz && Download_src
     src_url=https://github.com/pagespeed/ngx_pagespeed/archive/v${nps_version}-beta.zip && Download_src
-    wget -O nginx-ct-${nginx_ct_version}.tar.gz -c https://github.com/grahamedgecombe/nginx-ct/archive/v${nginx_ct_version}.tar.gz
     case "${Nginx_version}" in
       1)
         echo "Download nginx..."
         src_url=http://nginx.org/download/nginx-${nginx_version}.tar.gz && Download_src
+        src_url=https://www.openssl.org/source/openssl-${openssl_version}.tar.gz && Download_src
+        wget -O nginx-ct-${nginx_ct_version}.tar.gz -c https://github.com/grahamedgecombe/nginx-ct/archive/v${nginx_ct_version}.tar.gz
         ;;
       2)
         echo "Download tengine..."
@@ -30,6 +31,7 @@ checkDownload(){
       3)
         echo "Download openresty..."
         src_url=https://openresty.org/download/openresty-${openresty_version}.tar.gz && Download_src
+        src_url=https://mirror.tuna.tsinghua.edu.cn/OpenBSD/LibreSSL/libressl-${libressl_version}.tar.gz && Download_src
         ;;
     esac
   fi

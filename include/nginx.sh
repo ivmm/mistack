@@ -9,6 +9,10 @@
 #       https://github.com/lj2007331/oneinstack
 
 Install_Nginx() {
+  #install libbrotli
+  pushd ${oneinstack_dir}/src
+  dpkg -i libbrotli_1.0.0-1_amd64.deb
+  ln -s /usr/local/lib/libbrotlienc.so.1 /lib64
   pushd ${oneinstack_dir}/src
   
   id -u $run_user >/dev/null 2>&1
@@ -20,16 +24,10 @@ Install_Nginx() {
   tar xzf $nps_version.tar.gz
 
   pushd $oneinstack_dir/src
-  tar xzf v$srcache_nginx_module_version.tar.gz
-  tar xzf v$redis2_nginx_modul_version.tar.gz
-  unzip v$set_misc_nginx_module_version.zip
-  tar xzf v$ngx_devel_kit_version.tar.gz
-  tar xzf ngx_http_redis-$ngx_http_redis_version.tar.gz
-
-  
   tar xzf pcre-$pcre_version.tar.gz
   tar xzf nginx-$nginx_version.tar.gz
   tar xzf openssl-$openssl_version.tar.gz
+  git clone https://github.com/google/ngx_brotli.git
   pushd nginx-$nginx_version
   # Modify Nginx version
   #sed -i 's@#define NGINX_VERSION.*$@#define NGINX_VERSION      "1.2"@' src/core/nginx.h
@@ -53,12 +51,8 @@ Install_Nginx() {
 --with-http_flv_module \
 --with-openssl=../openssl-$openssl_version \
 --with-ld-opt="-ljemalloc" \
---add-module=../ngx_devel_kit-$ngx_devel_kit_version \
---add-module=../set-misc-nginx-module-$set_misc_nginx_module_version \
---add-module=../srcache-nginx-module-$srcache_nginx_module_version \
---add-module=../redis2-nginx-module-$redis2_nginx_modul_version \
---add-module=../ngx_pagespeed-$nps_version-beta \
---add-module=../ngx_http_redis-$ngx_http_redis_version
+--add-module=../nginx-ct-${nginx_ct_version}
+--add-module=../ngx_brotli
   make -j ${THREAD} && make install
   if [ -e "$nginx_install_dir/conf/nginx.conf" ]; then
     popd 
