@@ -27,7 +27,7 @@ Install_OpenResty() {
   pushd ${oneinstack_dir}/src
   tar xzf openresty-$openresty_version.tar.gz
   tar xzf libressl-$libressl_version.tar.gz
-  git clone https://github.com/google/ngx_brotli.git
+  tar xzf ngx-brotli-$ngx_brotli_version.tar.gz
   pushd openresty-$openresty_version
   
   # close debug
@@ -66,7 +66,7 @@ Install_OpenResty() {
 	  --with-openssl=../libressl-$libressl_version \
 	  --with-ld-opt="-ljemalloc" \
 	  --add-module=../ngx_pagespeed-$nps_version-beta \
-    --add-module=../ngx_brotli
+    --add-module=../ngx_brotli-ngx-brotli-$ngx_brotli_version
     make -j ${THREAD} && make install
   if [ -e "$openresty_install_dir/nginx/conf/nginx.conf" ]; then
     popd

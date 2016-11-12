@@ -27,7 +27,7 @@ Install_Nginx() {
   tar xzf pcre-$pcre_version.tar.gz
   tar xzf nginx-$nginx_version.tar.gz
   tar xzf openssl-$openssl_version.tar.gz
-  git clone https://github.com/google/ngx_brotli.git
+  tar xzf ngx-brotli-$ngx_brotli_version.tar.gz
   pushd nginx-$nginx_version
   # Modify Nginx version
   #sed -i 's@#define NGINX_VERSION.*$@#define NGINX_VERSION      "1.2"@' src/core/nginx.h
@@ -52,7 +52,7 @@ Install_Nginx() {
 --with-openssl=../openssl-$openssl_version \
 --with-ld-opt="-ljemalloc" \
 --add-module=../nginx-ct-${nginx_ct_version}
---add-module=../ngx_brotli
+--add-module=../ngx_brotli-ngx-brotli-$ngx_brotli_version
   make -j ${THREAD} && make install
   if [ -e "$nginx_install_dir/conf/nginx.conf" ]; then
     popd 
