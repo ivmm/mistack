@@ -16,6 +16,7 @@
 
 ```
 apt-get install apt-transport-https ca-certificates -y
+rm -rf /etc/apt/sources.list
 cat >> /etc/apt/sources.list <<EOF
 deb https://mirror.tuna.tsinghua.edu.cn/debian jessie main contrib non-free
 deb https://mirror.tuna.tsinghua.edu.cn/debian jessie-proposed-updates main contrib non-free
@@ -25,7 +26,7 @@ deb https://mirror.tuna.tsinghua.edu.cn/debian-security/ jessie/updates main non
 EOF
 
 apt-get update && apt-get install git -y
-git clone https://github.com/ivmm/mistack.git
+git clone https://git.oschina.net/mifar/mistack.git
 cd mistack
 chmod +x *.sh
 chmod +x ./include/*.sh
@@ -38,6 +39,7 @@ chmod +x ./include/*.py
 ```
 wget https://repo.percona.com/apt/percona-release_0.1-4.$(lsb_release -sc)_all.deb
 dpkg -i percona-release_0.1-4.$(lsb_release -sc)_all.deb
+rm -rf /etc/apt/percona-release.list
 cat >> /etc/apt/percona-release.list <<EOF
 deb https://mirror.tuna.tsinghua.edu.cn/percona/apt jessie main
 EOF
@@ -65,4 +67,10 @@ Reload privilege tables now? [Y/n]  y
 解释：想要重新加载权限吗？输入 y 表示愿意。
 ```
 
+jemalloc 优化 Percona
+
+修改 `/etc/mysql/percona-server.conf.d/mysqld_safe.cnf` 添加
+malloc-lib = /usr/lib/x86_64-linux-gnu/libjemalloc.so.1
+
+重启即可 
 
