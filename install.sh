@@ -615,6 +615,8 @@ fi
 # index example
 if [ ! -e "${wwwroot_dir}/default/index.html" -a "${Web_yn}" == 'y' ]; then
   . include/demo.sh
+  . include/phpmyadmin.sh
+  Install_phpMyAdmin 2>&1 | tee -a ${oneinstack_dir}/install.log
   DEMO 2>&1 | tee -a ${oneinstack_dir}/install.log
 fi
 
