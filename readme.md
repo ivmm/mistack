@@ -25,6 +25,11 @@ deb https://mirror.tuna.tsinghua.edu.cn/debian jessie-backports main contrib non
 deb https://mirror.tuna.tsinghua.edu.cn/debian-security/ jessie/updates main non-free contrib
 EOF
 
+cat >> /etc/apt/sources.list.d/dotdeb.list <<EOF
+deb https://mirror.tuna.tsinghua.edu.cn/dotdeb/ jessie all
+EOF
+
+apt-key adv --keyserver pgp.mit.edu --recv-keys E9C74FEEA2098A6E
 apt-get update && apt-get install git -y
 git clone https://git.oschina.net/mifar/mistack.git
 cd mistack
@@ -33,6 +38,12 @@ chmod +x ./include/*.sh
 chmod +x ./include/*.py
 ./install.sh 
 ```
+二、安装 PHP，使用 Dotdeb 的源
+
+```
+./install_php.sh
+```
+
 
 三、安装 Mysql，这里推荐安装 Percona。
 
@@ -72,5 +83,6 @@ jemalloc 优化 Percona
 修改 `/etc/mysql/percona-server.conf.d/mysqld_safe.cnf` 添加
 malloc-lib = /usr/lib/x86_64-linux-gnu/libjemalloc.so.1
 
-重启即可 
+重启即可 `service mysql restart`
+
 

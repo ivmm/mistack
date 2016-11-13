@@ -83,7 +83,7 @@ Install_OpenResty() {
   . /etc/profile
   
   [ "$OS" == 'CentOS' ] && { /bin/cp ../init.d/Nginx-init-CentOS /etc/init.d/nginx; chkconfig --add nginx; chkconfig nginx on; }
-  [[ $OS =~ ^Ubuntu$|^Debian$ ]] && { /bin/cp ../init.d/Nginx-init-Ubuntu /etc/init.d/nginx; update-rc.d nginx defaults; }
+  [[ $OS =~ ^Ubuntu$|^Debian$ ]] && { /bin/cp ../init.d/Nginx-init-Ubuntu /etc/init.d/nginx; chmod 755 /etc/init.d/nginx; update-rc.d nginx defaults; }
   
   sed -i "s@/usr/local/nginx@$openresty_install_dir/nginx@g" /etc/init.d/nginx
   

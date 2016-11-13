@@ -1,4 +1,6 @@
-#!/bin/bash
+
+
+41#0!/bin/bash
 # Author:  yeho <lj2007331 AT gmail.com>
 # BLOG:  https://blog.linuxeye.com
 #
@@ -600,7 +602,6 @@ fi
 if [ "${redis_yn}" == 'y' ]; then
   . include/redis.sh
   [ ! -d "${redis_install_dir}" ] && Install_redis-server 2>&1 | tee -a ${oneinstack_dir}/install.log
-  [ -e "${php_install_dir}/bin/phpize" ] && [ ! -e "$(${php_install_dir}/bin/php-config --extension-dir)/redis.so" ] && Install_php-redis 2>&1 | tee -a ${oneinstack_dir}/install.log
 fi
 
 # memcached
