@@ -11,6 +11,7 @@
 
 apt-get install php-fpm php-common php-dev php-mysql php-gd php-bcmath php-mcrypt php-xml php-xmlrpc php-dba php-mbstring php-intl php-opcache -y
 ln -s /etc/init.d/php7.0-fpm /etc/init.d/php-fpm
+systemctl daemon-reload
 
 
 if [ -e "/etc/php/7.0/fpm/php.ini" ];then
