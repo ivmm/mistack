@@ -15,6 +15,14 @@
 一、安装 OpenResty，可以新定 SSH 的端口。
 
 ```
+cat >> /etc/apt/sources.list <<EOF
+deb https://mirror.tuna.tsinghua.edu.cn/debian jessie main contrib non-free
+deb https://mirror.tuna.tsinghua.edu.cn/debian jessie-proposed-updates main contrib non-free
+deb https://mirror.tuna.tsinghua.edu.cn/debian jessie-updates main contrib non-free
+deb https://mirror.tuna.tsinghua.edu.cn/debian jessie-backports main contrib non-free
+deb https://mirror.tuna.tsinghua.edu.cn/debian-security/ jessie/updates main non-free contrib
+EOF
+
 apt-get install git -y
 git clone https://github.com/ivmm/mistack.git
 cd mistack
