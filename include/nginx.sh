@@ -28,7 +28,9 @@ Install_Nginx() {
   tar xzf openssl-$openssl_version.tar.gz
   tar xzf ngx-brotli-$ngx_brotli_version.tar.gz
   tar xzf nginx-ct-$nginx_ct_version.tar.gz
+  tar xzf ngx_cache_purge-$ngx_cache_purge_version.tar.gz
   pushd nginx-$nginx_version
+  patch -p1 < ../nginx__1.11.5_dynamic_tls_records.patch
   # Modify Nginx version
   #sed -i 's@#define NGINX_VERSION.*$@#define NGINX_VERSION      "1.2"@' src/core/nginx.h
   #sed -i 's@#define NGINX_VER.*NGINX_VERSION$@#define NGINX_VER          "Linuxeye/" NGINX_VERSION@' src/core/nginx.h
@@ -39,7 +41,6 @@ Install_Nginx() {
   
   [ ! -d "$nginx_install_dir" ] && mkdir -p $nginx_install_dir
   ./configure \
-  --with-cc-opt='-Wno-deprecated-declarations' 
   --prefix=$nginx_install_dir \
   --user=$run_user \
   --group=$run_user \
@@ -53,7 +54,8 @@ Install_Nginx() {
   --with-openssl=../openssl-$openssl_version \
   --with-ld-opt="-ljemalloc" \
   --add-module=../nginx-ct-$nginx_ct_version \
-  #--add-module=../ngx_brotli-$ngx_brotli_version
+  --add-module=../ngx_brotli-$ngx_brotli_version \
+  --add-module=../ngx_cache_purge-$ngx_cache_purge_version
   make -j ${THREAD} && make install
   if [ -e "$nginx_install_dir/conf/nginx.conf" ]; then
     popd 

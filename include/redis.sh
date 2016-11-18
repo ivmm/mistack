@@ -16,10 +16,6 @@ Install_redis-server() {
 
 
   if [ -f "/usr/bin/redis-server" ]; then
-    sed -i 's@pidfile.*@pidfile /var/run/redis.pid@' /etc/redis/redis.conf
-    sed -i "s@logfile.*@logfile /var/redis.log@" /etc/redis/redis.conf
-    sed -i "s@^dir.*@dir /var@" /etc/redis/redis.conf
-    sed -i 's@daemonize no@daemonize yes@' /etc/redis/redis.conf
     sed -i "s@^# bind 127.0.0.1@bind 127.0.0.1@" /etc/redis/redis.conf
     redis_maxmemory=`expr $Mem / 8`000000
     [ -z "`grep ^maxmemory /etc/redis/redis.conf`" ] && sed -i "s@maxmemory <bytes>@maxmemory <bytes>\nmaxmemory `expr $Mem / 8`000000@" /etc/redis/redis.conf

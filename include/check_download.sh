@@ -28,6 +28,7 @@ checkDownload(){
         src_url=http://nginx.org/download/nginx-${nginx_version}.tar.gz && Download_src
         src_url=https://www.openssl.org/source/openssl-${openssl_version}.tar.gz && Download_src
         src_url=https://github.com/grahamedgecombe/nginx-ct/archive/v${nginx_ct_version}.tar.gz && Download_src
+        src_url=http://labs.frickle.com/files/ngx_cache_purge-${ngx_cache_purge_version}.tar.gz && Download_src
         if [ -f "nginx-ct-${nginx_ct_version}.tar.gz" ]; then 
         rm -rf nginx-ct-${nginx_ct_version}.tar.gz
         fi

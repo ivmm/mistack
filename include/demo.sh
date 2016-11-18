@@ -13,7 +13,7 @@ DEMO() {
 
   [ "${IPADDR_COUNTRY}"x == "CN"x ] && /bin/cp ${oneinstack_dir}/config/index_cn.html ${wwwroot_dir}/default/index.html || /bin/cp ${oneinstack_dir}/config/index.html ${wwwroot_dir}/default
 
-  if [ -e "/etc/php" ]; then
+  if [ -e "/etc/hosts" ]; then
     if [ "${IPADDR_COUNTRY}"x == "CN"x ]; then
       src_url=http://mirrors.linuxeye.com/oneinstack/src/tz.zip && Download_src
       unzip -q tz.zip -d ${wwwroot_dir}/default
