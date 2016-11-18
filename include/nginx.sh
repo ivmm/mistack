@@ -26,7 +26,7 @@ Install_Nginx() {
   pushd $oneinstack_dir/src
   tar xzf nginx-$nginx_version.tar.gz
   tar xzf openssl-$openssl_version.tar.gz
-  tar xzf ngx-brotli-$ngx_brotli_version.tar.gz
+  tar xzf ngx_brotli_module-$ngx_brotli_module.tar.gz
   tar xzf nginx-ct-$nginx_ct_version.tar.gz
   tar xzf ngx_cache_purge-$ngx_cache_purge_version.tar.gz
   pushd nginx-$nginx_version
@@ -53,7 +53,7 @@ Install_Nginx() {
   --with-openssl=../openssl-$openssl_version \
   --with-ld-opt="-ljemalloc" \
   --add-module=../nginx-ct-$nginx_ct_version \
-  --add-module=../ngx_brotli-$ngx_brotli_version \
+  --add-module=../ngx_brotli_module-$ngx_brotli_module \
   --add-module=../ngx_cache_purge-$ngx_cache_purge_version
   make -j ${THREAD} && make install
   if [ -e "$nginx_install_dir/conf/nginx.conf" ]; then

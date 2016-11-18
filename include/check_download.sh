@@ -17,11 +17,6 @@ checkDownload(){
     #src_url=https://www.openssl.org/source/openssl-${openssl_version}.tar.gz && Download_src
     #src_url=https://mirror.tuna.tsinghua.edu.cn/OpenBSD/LibreSSL/libressl-${libressl_version}.tar.gz && Download_src
     src_url=https://github.com/pagespeed/ngx_pagespeed/archive/v${nps_version}-beta.zip && Download_src
-    src_url=https://github.com/ivmm/ngx_brotli/archive/${ngx_brotli_version}.tar.gz && Download_src
-    if [ -f "ngx-brotli-${ngx_brotli_version}.tar.gz" ]; then 
-    rm -rf ngx-brotli-${ngx_brotli_version}.tar.gz
-    fi
-    mv ${ngx_brotli_version}.tar.gz ngx-brotli-${ngx_brotli_version}.tar.gz
     case "${Nginx_version}" in
       1)
         echo "Download nginx..."
