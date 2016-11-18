@@ -10,9 +10,9 @@
 
 Install_Nginx() {
   #install libbrotli
-  pushd ${oneinstack_dir}/src
-  dpkg -i libbrotli_1.0.0-1_amd64.deb
-  ln -s /usr/local/lib/libbrotlienc.so.1 /lib64
+  #pushd ${oneinstack_dir}/src
+  #dpkg -i libbrotli_1.0.0-1_amd64.deb
+  #ln -s /usr/local/lib/libbrotlienc.so.1 /lib64
   pushd ${oneinstack_dir}/src
   
   id -u $run_user >/dev/null 2>&1
@@ -30,7 +30,7 @@ Install_Nginx() {
   tar xzf nginx-ct-$nginx_ct_version.tar.gz
   tar xzf ngx_cache_purge-$ngx_cache_purge_version.tar.gz
   pushd nginx-$nginx_version
-  patch -p1 < ../nginx__1.11.5_dynamic_tls_records.patch
+  patch -p1 < ../nginx__dynamic_tls_records.patch
   # Modify Nginx version
   #sed -i 's@#define NGINX_VERSION.*$@#define NGINX_VERSION      "1.2"@' src/core/nginx.h
   #sed -i 's@#define NGINX_VER.*NGINX_VERSION$@#define NGINX_VER          "Linuxeye/" NGINX_VERSION@' src/core/nginx.h
@@ -47,7 +47,6 @@ Install_Nginx() {
   --with-http_stub_status_module \
   --with-http_v2_module \
   --with-http_ssl_module \
-  --with-ipv6 \
   --with-http_gzip_static_module \
   --with-http_realip_module \
   --with-http_flv_module \
@@ -72,7 +71,7 @@ Install_Nginx() {
   . /etc/profile
   
   [ "$OS" == 'CentOS' ] && { /bin/cp ../init.d/Nginx-init-CentOS /etc/init.d/nginx; chkconfig   --add nginx; chkconfig nginx on; }
-  [[ $OS =~ ^Ubuntu$|^Debian$ ]] && { /bin/cp ../init.d/Nginx-init-Ubuntu /etc/init.d/nginx; update-rc.d nginx defaults; }
+  [[ $OS =~ ^Ubuntu$|^Debian$ ]] && { /bin/cp ../init.d/Nginx-init-Ubuntu /etc/init.d/nginx; chmod 755 /etc/init.d/nginx; update-rc.d nginx defaults; }
 
   sed -i "s@/usr/local/nginx@$nginx_install_dir@g" /etc/init.d/nginx
   
