@@ -71,7 +71,7 @@ Install_Nginx() {
   . /etc/profile
   
   [ "$OS" == 'CentOS' ] && { /bin/cp ../init.d/Nginx-init-CentOS /etc/init.d/nginx; chkconfig   --add nginx; chkconfig nginx on; }
-  [[ $OS =~ ^Ubuntu$|^Debian$ ]] && { /bin/cp ../init.d/Nginx-init-Ubuntu /etc/init.d/nginx; chmod 755 /etc/init.d/nginx; update-rc.d nginx defaults; }
+  [[ $OS =~ ^Ubuntu$|^Debian$ ]] && { /bin/cp ../init.d/Nginx-init-Ubuntu /etc/init.d/nginx; chmod 755 /etc/init.d/nginx; update-rc.d nginx defaults; systemctl daemon-reload;}
 
   sed -i "s@/usr/local/nginx@$nginx_install_dir@g" /etc/init.d/nginx
   
