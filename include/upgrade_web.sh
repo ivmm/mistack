@@ -20,9 +20,9 @@ Upgrade_Nginx() {
     if [ "$NEW_Nginx_version" != "$OLD_Nginx_version" ]; then
       [ ! -e "nginx-$NEW_Nginx_version.tar.gz" ] && wget --no-check-certificate -c http://nginx.org/download/nginx-$NEW_Nginx_version.tar.gz > /dev/null 2>&1
       if [ -e "nginx-$NEW_Nginx_version.tar.gz" ]; then
-        #src_url=https://www.openssl.org/source/openssl-$openssl_version.tar.gz && Download_src
-        src_url=https://mirror.tuna.tsinghua.edu.cn/OpenBSD/LibreSSL/libressl-${libressl_version}.tar.gz && Download_src
-        tar xzf libressl-$libressl_version.tar.gz
+        src_url=https://www.openssl.org/source/openssl-$openssl_version.tar.gz && Download_src
+        #src_url=https://mirror.tuna.tsinghua.edu.cn/OpenBSD/LibreSSL/libressl-${libressl_version}.tar.gz && Download_src
+        tar xzf openssl-$openssl_version.tar.gz
         tar xzf pcre-$pcre_version.tar.gz
         echo "Download [${CMSG}nginx-$NEW_Nginx_version.tar.gz${CEND}] successfully! "
         break
